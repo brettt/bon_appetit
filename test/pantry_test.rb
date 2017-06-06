@@ -106,4 +106,31 @@ class PantryTest < Minitest::Test
 
     assert_equal "Centi-Units", result
   end
+
+  def test_example_in_spec
+    r = Recipe.new("Spicy Cheese Pizza")
+    r.add_ingredient("Cayenne Pepper", 0.025)
+    r.add_ingredient("Cheese", 75)
+    r.add_ingredient("Flour", 500)
+    result = pantry.convert_units(r)
+    correct_output = {"Cayenne Pepper" => {quantity: 25, units: "Milli-Units"},
+    "Cheese"         => {quantity: 75, units: "Universal Units"},
+    "Flour"          => {quantity: 5, units: "Centi-Units"}}
+
+    assert_equal correct_output, result
+
+  end
+
+  def test_different_conversion_example
+    r = Recipe.new("Navy Food")
+    r.add_ingredient("Glass", 0.025)
+    r.add_ingredient("Dried Vomit", 75)
+    r.add_ingredient("Vegemite", 500)
+    result = pantry.convert_units(r)
+    correct_output = {"Glass" => {quantity: 25, units: "Milli-Units"},
+    "Dried Vomit"         => {quantity: 75, units: "Universal Units"},
+    "Vegemite"          => {quantity: 5, units: "Centi-Units"}}
+
+    assert_equal correct_output, result
+  end
 end

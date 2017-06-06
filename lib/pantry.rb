@@ -21,10 +21,19 @@ class Pantry
 #needs to be:
 #=> {"Cayenne Pepper" => {quantity: 25, units: "Milli-Units"},
   def convert_units(recipe)
-    recipe.for_each do |item, quantity|
-
+    recipe.ingredients.each_pair do |item, quantity|
+      recipe.ingredients[item] = {quantity: correct_quantity(quantity), units: correct_units(quantity)}
     end
+  end
 
+  def correct_quantity(quantity)
+    if quantity < 1
+      quantity.to_f * 1000
+    elsif quantity > 1 && quantity < 100
+      quantity
+    elsif quantity > 100
+      quantity / 100
+    end
   end
 
   def correct_units(quantity)
