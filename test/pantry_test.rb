@@ -4,17 +4,18 @@ require 'minitest/pride'
 
 class PantryTest < Minitest::Test
 
-  attr_reader :pantry
+  attr_reader :pantry, :recipe
 
   def setup
     @pantry = Pantry.new
+    @recipe = Recipe.new("Cheese Pizza")
   end
 
   def test_class_exists
     assert_instance_of Pantry, pantry
   end
 
-  def test_return_stock
+  def test_empty_stock
     result = pantry.stock
     pantry_hash = {}
 
@@ -57,13 +58,28 @@ class PantryTest < Minitest::Test
 
   end
 
-  def test_restocking_soylent
+  def test_restocking_delicious_soylent
     pantry.restock("Soylant", 12)
     pantry.restock("Soylant", 12)
     pantry.restock("Soylant", 12)
     result = pantry.stock_check("Soylant")
 
     assert_equal 36, result
+  end
+
+  def test_recipe_sends_correct_format
+    recipe.add_ingredient("Flour", 500)
+
+    assert_equal 500, recipe.amount_required("Flour")
+  end
+
+  def test_recipe_sends_correct_format_many_items
+    recipe.add_ingredient("Flour", 500)
+    recipe.add_ingredient("Cheese", 200)
+    recipe.add_ingredient("Love", 1500)
+    ingredients = {"Flour"=>500, "Cheese"=>200, "Love"=>1500}
+
+    assert_equal ingredients, recipe.ingredients
   end
 
 end
