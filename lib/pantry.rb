@@ -18,17 +18,24 @@ class Pantry
   end
 
 #{"Flour"=>500, "Cheese"=>200, "Love"=>1500}
+#needs to be:
 #=> {"Cayenne Pepper" => {quantity: 25, units: "Milli-Units"},
   def convert_units(recipe)
-    recipe
-    #recipe.for_each do |item, quantity|
+    recipe.for_each do |item, quantity|
+
     end
 
+  end
 
-    "Universal Units"
-    #if recipie is > 100 units = Centi-Units
-    #if recipie is < 1 units = Milli-Units
-
+  def correct_units(quantity)
+    if quantity < 1
+      "Milli-Units"
+    elsif quantity > 1 && quantity < 100
+      "Universal Units"
+    elsif quantity > 100
+      "Centi-Units"
+    end
+  end
 end
 
 #Centi-Units -- Equals 100 Universal Units
