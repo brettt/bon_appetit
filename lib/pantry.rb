@@ -2,10 +2,11 @@ require_relative 'recipe'
 
 class Pantry
 
-  attr_accessor :stock
+  attr_accessor :stock, :shopping_list
 
   def initialize
     @stock = {}
+    @shopping_list = {}
   end
 
   def stock_check(item)
@@ -17,9 +18,6 @@ class Pantry
     stock[item] += quantity
   end
 
-#{"Flour"=>500, "Cheese"=>200, "Love"=>1500}
-#needs to be:
-#=> {"Cayenne Pepper" => {quantity: 25, units: "Milli-Units"},
   def convert_units(recipe)
     recipe.ingredients.each_pair do |item, quantity|
       recipe.ingredients[item] = {quantity: correct_quantity(quantity), units: correct_units(quantity)}
@@ -45,21 +43,16 @@ class Pantry
       "Centi-Units"
     end
   end
+
+#not adding values
+  def add_to_shopping_list(recipe)
+    recipe.ingredients.each do |item, quantity|
+      shopping_list[item] ||= 0
+      shopping_list[item] += quantity
+    end
+  end
+
+  def print_shopping_list
+    shopping_list.each {|item, quantity| puts "* #{item}: #{quantity}"}
+  end
 end
-
-#Centi-Units -- Equals 100 Universal Units
-#Milli-Units -- Equals 1/1000 Universal Units
-=begin
-Then, we'll add a new method, `convert_units`, which takes a `Recipe` and outputs updated units for it following these rules:
-
-1. If the recipe calls for more than 100 Units of an ingredient, convert it to Centi-units
-2. If the recipe calls for less than 1 Units of an ingredient, convert it to Milli-units
-
-# Convert units for this recipe
-
-pantry.convert_units(r)
-
-=> {"Cayenne Pepper" => {quantity: 25, units: "Milli-Units"},
-    "Cheese"         => {quantity: 75, units: "Universal Units"},
-    "Flour"          => {quantity: 5, units: "Centi-Units"}}
-=end

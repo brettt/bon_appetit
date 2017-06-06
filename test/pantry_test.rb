@@ -118,7 +118,6 @@ class PantryTest < Minitest::Test
     "Flour"          => {quantity: 5, units: "Centi-Units"}}
 
     assert_equal correct_output, result
-
   end
 
   def test_different_conversion_example
@@ -132,5 +131,70 @@ class PantryTest < Minitest::Test
     "Vegemite"          => {quantity: 5, units: "Centi-Units"}}
 
     assert_equal correct_output, result
+  end
+
+  def test_shopping_list
+    result = pantry.shopping_list
+    empty_hash = {}
+
+    assert_equal empty_hash, result
+  end
+
+  def test_full_shopping_list
+    r = Recipe.new("Butter Beer")
+    r.add_ingredient("Butter", 20)
+    r.add_ingredient("Beer", 20)
+    pantry.add_to_shopping_list(r)
+    list = pantry.shopping_list
+    expected_hash = {"Butter"=>20, "Beer"=>20}
+
+    assert_equal expected_hash, list
+  end
+
+  def test_full_shopping_list_example
+    r = Recipe.new("Cheese Pizza")
+    r.add_ingredient("Cheese", 20)
+    r.add_ingredient("Flour", 20)
+    pantry.add_to_shopping_list(r)
+    list = pantry.shopping_list
+    expected_hash = {"Cheese" => 20, "Flour" => 20}
+
+    assert_equal expected_hash, list
+  end
+
+  def test_other_full_shopping_list_example
+    skip #not adding values
+    r = Recipe.new("Cheese Pizza")
+    r.add_ingredient("Cheese", 5)
+    r.add_ingredient("Flour", 20)
+    r.add_ingredient("Noodles", 10)
+    r.add_ingredient("Sauce", 10)
+    r.add_ingredient("Cheese", 20)
+    pantry.add_to_shopping_list(r)
+    list = pantry.shopping_list
+    expected_hash = {"Cheese" => 25, "Flour" => 20, "Noodles" => 10, "Sauce" => 10}
+
+    assert_equal expected_hash, list
+  end
+
+  def test_print_shopping_list
+    r = Recipe.new("Cheese Pizza")
+    r.add_ingredient("Cheese", 5)
+    r.add_ingredient("Flour", 20)
+    pantry.add_to_shopping_list(r)
+    result = pantry.print_shopping_list
+
+    assert_equal 2, result.length
+  end
+
+  def test_print_shopping_list_again
+    r = Recipe.new("Cheese Pizza")
+    r.add_ingredient("Cheese", 5)
+    r.add_ingredient("Flour", 20)
+    r.add_ingredient("Milk", 10)
+    pantry.add_to_shopping_list(r)
+    result = pantry.print_shopping_list
+
+    assert_equal 3, result.length
   end
 end
