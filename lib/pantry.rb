@@ -20,7 +20,31 @@ class Pantry
 
   def convert_units(recipe)
     recipe.ingredients.each_pair do |item, quantity|
-      recipe.ingredients[item] = {quantity: correct_quantity(quantity), units: correct_units(quantity)}
+      recipe.ingredients[item] = {
+        quantity: correct_quantity(quantity),
+        units:    correct_units(quantity)
+      }
+    end
+  end
+
+  #for iteration four, work in progress
+  def new_covert_units(recipe)
+    recipe.ingredients.each_pair do |item, quantity|
+      recipe.ingredients[item] = {
+        quantity: new_correct_quantity(quantity),
+        units: "Universal Units"
+      }
+    end
+  end
+
+  #for iteration four, work in progress
+  def new_correct_quantity(quantity)
+    if ingredients.quantity[1] == "Milli-Units"
+      quantity * 1000
+    elsif ingredients..quantity[1] == "Universal Units"
+      quantity * 1
+    elsif ingredients..quantity[1] == "Centi-Units"
+      quantity / 100
     end
   end
 
@@ -44,7 +68,7 @@ class Pantry
     end
   end
 
-#not adding values
+#not adding values for some dumb reason
   def add_to_shopping_list(recipe)
     recipe.ingredients.each do |item, quantity|
       shopping_list[item] ||= 0
@@ -53,6 +77,6 @@ class Pantry
   end
 
   def print_shopping_list
-    shopping_list.each {|item, quantity| puts "* #{item}: #{quantity}"}
+    shopping_list.each {|item, quantity| p "* #{item}: #{quantity}"}
   end
 end

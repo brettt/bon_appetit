@@ -197,4 +197,36 @@ class PantryTest < Minitest::Test
 
     assert_equal 3, result.length
   end
+
+  def test_new_convert_units_cayenne
+    skip #interation 4
+    r = Recipe.new("Spicy Cheese Pizza")
+    r.add_ingredient("Cayenne Pepper", 1.025)
+    result = pantry.convert_units(r)
+    expected_hash = {quantity: 1, units: "Universal Units"}
+
+    assert_equal expected_hash, result
+
+  end
+
+  def test_new_convert_units_cheese
+    skip #iteration 4
+    r = Recipe.new("Spicy Cheese Pizza")
+    r.add_ingredient("Cheese", 75)
+    result = pantry.convert_units(r)
+    expected_hash = {quantity: 75, units: "Universal Units"}
+
+    assert_equal expected_hash, result
+  end
+
+  def test_new_convert_units_flour
+    skip #iteration 4
+    r = Recipe.new("Spicy Cheese Pizza")
+    r.add_ingredient("Flour", 550)
+    result = pantry.convert_units(r)
+    expected_hash = {quantity: 50, units: "Universal Units"}
+
+    assert_equal expected_hash, result
+  end
+
 end
